@@ -1,4 +1,4 @@
-import { Component, h, Prop, State} from "@stencil/core";
+import { Component, h, Prop} from "@stencil/core";
 
 @Component({
     tag: 'filter-component',
@@ -8,7 +8,7 @@ import { Component, h, Prop, State} from "@stencil/core";
 export class FilterComponent {
     //@State() items: any[];
     @Prop() items: any[];
-    @State() filterValue: any;
+    @Prop() filterValue: any;
     //@Prop() options: string;
 
     filteredItems: any;
@@ -32,20 +32,30 @@ export class FilterComponent {
 
     onFilterValueChanged(event: any){
         this.filterValue = event.target.value;
-        //console.log(this.filterValue);
+        //console.log("Items: ", this.filteredItems);
     }
 
     render() {
-        console.log("+++++", this.filterValue);
-        this.filteredItems = this.items.filter(item => item.includes(this.filterValue));
-
+        //console.log("+++++", this.filterValue);
+        //var e = document.getElementById("filterDropdown");
+        //this.filterValue = e.options[e.selectedIndex];
+        if (this.filterValue === 'all') {
+            this.filteredItems = this.items;
+        }
+        else {
+            this.filteredItems = this.items.filter(item => item.includes(this.filterValue));
+        }
+        
+        //console.log("Items", this.filteredItems);
         return(
             <div>
                 <div class="filter-button">
-                    <select onChange={this.onFilterValueChanged}>
-                        <option value="a">a</option>
-                        <option value="b">b</option>
-                        <option value="c">c</option>
+                    <select id="filterDropdown" onChange={this.onFilterValueChanged.bind(this)}>
+                        <option value='all'>All</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
                     </select>
                 </div>
                 <div>
