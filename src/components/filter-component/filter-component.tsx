@@ -6,8 +6,8 @@ import { Component, h, Prop} from "@stencil/core";
     shadow: false
 })
 export class FilterComponent {
-    //@State() items: any[];
-    @Prop() items: any[];
+    //@State() filterItems: any[];
+    @Prop() filterItems: any[];
     @Prop() filterValue: any;
     //@Prop() options: string;
 
@@ -26,7 +26,7 @@ export class FilterComponent {
     // @Watch('options') //Method to update internal @State property
     // parseOptions() {
     //     if (this.options) {
-    //         this.items = JSON.parse(this.options);
+    //         this.filterItems = JSON.parse(this.options);
     //     }
     // }
 
@@ -40,10 +40,10 @@ export class FilterComponent {
         //var e = document.getElementById("filterDropdown");
         //this.filterValue = e.options[e.selectedIndex];
         if (this.filterValue === 'all') {
-            this.filteredItems = this.items;
+            this.filteredItems = this.filterItems;
         }
         else {
-            this.filteredItems = this.items.filter(item => item.includes(this.filterValue));
+            this.filteredItems = this.filterItems.filter(item => item.includes(this.filterValue));
         }
         
         //console.log("Items", this.filteredItems);
