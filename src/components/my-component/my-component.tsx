@@ -37,7 +37,7 @@ export class MyComponent {
     {
       "orderInfo": {
         "orderId": "1231235",
-        "orderDate": "2019-01-18T22:11:38.998Z",
+        "orderDate": "2021-01-18T22:11:38.998Z",
         "productName": "Battery"
       }
     },
@@ -51,7 +51,7 @@ export class MyComponent {
     {
       "orderInfo": {
         "orderId": "1231245",
-        "orderDate": "2021-01-18T22:11:38.998Z",
+        "orderDate": "2019-01-18T22:11:38.998Z",
         "productName": "Hubcap"
       }
     },
@@ -63,10 +63,11 @@ export class MyComponent {
       }
     }
   ];
-
+  results: any = [];
   extractData(data): any {
     return (data.map(
       (order: {orderInfo: {orderId: string, orderDate: string, productName: string}}): string => {
+        this.results.push(order.orderInfo.productName);
         return order.orderInfo.orderDate;
       })
     );
@@ -76,11 +77,13 @@ export class MyComponent {
 
   render() {
     //console.log("Testing: ", this.years);
+    console.log("Main comp");
     return (
     <div>
+      {console.log("Main comp return")}
       <div>Hello, World! I'm {this.getText()}</div>
       <div>
-        <filter-component filterValue="all" filterItems={this.extractData(this.data)} ></filter-component>
+        <filter-component filterValue="all" itemsToFilter={this.extractData(this.data)} rawData={this.data}></filter-component>
       </div>
     </div>
     );

@@ -6,13 +6,14 @@ import { Component, h, Prop} from "@stencil/core";
     shadow: false
 })
 export class FilterComponent {
-    //@State() filterItems: any[];
-    @Prop() filterItems: any[];
-    @Prop() filterValue: any;
+    //@State() itemsToFilter: any[];
+    @Prop() itemsToFilter: any; //List to which the filter is going to be applied
+    @Prop() filterValue: any; //Selected value from the list of filters
+    @Prop() rawData: any = []; //Raw unfiltered data
     //@Prop() options: string;
 
-    filteredItems: any;
-
+    filteredItems: any = []; //Items that meet the filtering criteria, not necessarily displayed.
+    filteredResults: any = []; //Filtered results to be displayed
     // componentWillLoad() {
     //     console.log("--------");
     //     this.parseOptions();
@@ -26,7 +27,7 @@ export class FilterComponent {
     // @Watch('options') //Method to update internal @State property
     // parseOptions() {
     //     if (this.options) {
-    //         this.filterItems = JSON.parse(this.options);
+    //         this.itemsToFilter = JSON.parse(this.options);
     //     }
     // }
 
@@ -39,16 +40,28 @@ export class FilterComponent {
         //console.log("+++++", this.filterValue);
         //var e = document.getElementById("filterDropdown");
         //this.filterValue = e.options[e.selectedIndex];
+        console.log("Filter Comp");
         if (this.filterValue === 'all') {
-            this.filteredItems = this.filterItems;
+            this.filteredItems = this.itemsToFilter;
+            this.filteredResults = this.rawData.map((order: {orderInfo: {orderId: string, orderDate: string, productName: string}}): any => {
+                return order.orderInfo.productName
+            });
         }
         else {
-            this.filteredItems = this.filterItems.filter(item => item.includes(this.filterValue));
+            this.filteredItems = this.itemsToFilter.filter(item => item.includes(this.filterValue));
+            this.filteredResults = this.rawData.map((order: {orderInfo: {orderId: string, orderDate: string, productName: string}}): any => {
+                return (this.filteredItems.map(item => {
+                    if (item === order.orderInfo.orderDate){
+                        return order.orderInfo.productName;
+                    }
+                }))
+              })
         }
         
         //console.log("Items", this.filteredItems);
         return(
             <div>
+                {console.log("Filter comp return")}
                 <div class="filter-button">
                     <select id="filterDropdown" onChange={this.onFilterValueChanged.bind(this)}>
                         <option value='all'>All</option>
@@ -60,7 +73,7 @@ export class FilterComponent {
                 </div>
                 <div>
                     <ul>
-                        {this.filteredItems.map(item => (
+                        {this.filteredResults.map(item => (
                             <li>{item}</li>
                         ))}
                     </ul>
