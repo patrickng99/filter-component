@@ -8,7 +8,6 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface FilterComponent {
         "filterValue": any;
-        "itemsToFilter": any;
         "rawData": any;
     }
     interface MyComponent {
@@ -47,7 +46,6 @@ declare global {
 declare namespace LocalJSX {
     interface FilterComponent {
         "filterValue"?: any;
-        "itemsToFilter"?: any;
         "rawData"?: any;
     }
     interface MyComponent {

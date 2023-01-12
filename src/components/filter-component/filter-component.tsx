@@ -6,59 +6,30 @@ import { Component, h, Prop} from "@stencil/core";
     shadow: false
 })
 export class FilterComponent {
-    //@State() itemsToFilter: any[];
-    @Prop() itemsToFilter: any; //List to which the filter is going to be applied
     @Prop() filterValue: any; //Selected value from the list of filters
     @Prop() rawData: any = []; //Raw unfiltered data
-    //@Prop() options: string;
-
-    filteredItems: any = []; //Items that meet the filtering criteria, not necessarily displayed.
     filteredResults: any = []; //Filtered results to be displayed
-    // componentWillLoad() {
-    //     console.log("--------");
-    //     this.parseOptions();
-    // }
-    
-    /* 
-    HTML attributes need to be strings so the array
-    needs to be passed as a JSON-encoded string attribute
-    */
 
-    // @Watch('options') //Method to update internal @State property
-    // parseOptions() {
-    //     if (this.options) {
-    //         this.itemsToFilter = JSON.parse(this.options);
-    //     }
-    // }
-
+    //Event handler for when the filter value is changed
     onFilterValueChanged(event: any){
         this.filterValue = event.target.value;
-        //console.log("Items: ", this.filteredItems);
     }
 
     render() {
-        //console.log("+++++", this.filterValue);
-        //var e = document.getElementById("filterDropdown");
-        //this.filterValue = e.options[e.selectedIndex];
-        console.log("Filter Comp");
+        //Display all the results if the filter value is set to "All"
         if (this.filterValue === 'all') {
-            this.filteredItems = this.itemsToFilter;
             this.filteredResults = this.rawData.map((order: {orderInfo: {orderId: string, orderDate: string, productName: string}}): any => {
                 return order.orderInfo.productName
             });
         }
+        //Go through the data and filter the dates and display the matching results
         else {
-            this.filteredItems = this.itemsToFilter.filter(item => item.includes(this.filterValue));
             this.filteredResults = this.rawData.map((order: {orderInfo: {orderId: string, orderDate: string, productName: string}}): any => {
-                return (this.filteredItems.map(item => {
-                    if (item === order.orderInfo.orderDate){
-                        return order.orderInfo.productName;
-                    }
-                }))
-              })
+                if (order.orderInfo.orderDate.includes(this.filterValue)) {
+                    return order.orderInfo.productName
+                }
+              }).filter((item) => item) as string; //This filter function makes sure there are no 'undefined' values stored in the results array
         }
-        
-        //console.log("Items", this.filteredItems);
         return(
             <div>
                 {console.log("Filter comp return")}

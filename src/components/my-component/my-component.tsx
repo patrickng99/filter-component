@@ -1,6 +1,5 @@
 import { Component, Prop, h } from '@stencil/core';
 import { format } from '../../utils/utils';
-//import { data } from '../../data/sampleData';
 
 @Component({
   tag: 'my-component',
@@ -26,11 +25,6 @@ export class MyComponent {
   private getText(): string {
     return format(this.first, this.middle, this.last);
   }
-
-  // onFilterValueSelected(filterValue): any{
-  //   filterValue = 'a';
-  //   return filterValue;
-  // }
 
   data: any = 
   [
@@ -58,23 +52,11 @@ export class MyComponent {
     {
       "orderInfo": {
         "orderId": "2233235",
-        "orderDate": "2022-01-18T22:11:38.998Z",
+        "orderDate": "2021-01-18T22:11:38.998Z",
         "productName": "Carpet"
       }
     }
   ];
-  results: any = [];
-  extractData(data): any {
-    return (data.map(
-      (order: {orderInfo: {orderId: string, orderDate: string, productName: string}}): string => {
-        this.results.push(order.orderInfo.productName);
-        return order.orderInfo.orderDate;
-      })
-    );
-  }
-  //years: any = this.data['orderList'].map((order: any) => {return order['orderInfo']['orderDate']});
-  
-
   render() {
     //console.log("Testing: ", this.years);
     console.log("Main comp");
@@ -83,7 +65,7 @@ export class MyComponent {
       {console.log("Main comp return")}
       <div>Hello, World! I'm {this.getText()}</div>
       <div>
-        <filter-component filterValue="all" itemsToFilter={this.extractData(this.data)} rawData={this.data}></filter-component>
+        <filter-component filterValue="all" rawData={this.data}></filter-component>
       </div>
     </div>
     );
